@@ -14,6 +14,7 @@ const contentStyle: React.CSSProperties = {
   backgroundRepeat: 'no-repeat',
 };
 
+// updated carousel layout
 const HomeCarousal: React.FC = () => (
   <Carousel autoplay>
     <div>
