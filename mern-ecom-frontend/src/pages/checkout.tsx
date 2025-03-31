@@ -81,7 +81,7 @@ const CheckoutForm = () => {
             <form onSubmit={submitHandler} >
                     <PaymentElement />
                     <button type='submit' disabled={isProcessing}>
-                    {isProcessing ? "Processing..." : "Pay"}
+                    {isProcessing ? "Processing..." : "Pay Now"}
                     </button>
             </form>
         </div>
