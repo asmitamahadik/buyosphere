@@ -38,8 +38,6 @@ const Login = () => {
                 toast.error(resMsg.message)
             }
 
-            console.log(user);
-
         } catch (error) {
             toast.error("Sign In Failed");
         }

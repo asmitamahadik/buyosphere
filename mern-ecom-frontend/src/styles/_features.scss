@@ -1,0 +1,348 @@
+// ─── Design tokens ────────────────────────────────────────────────────────────
+:root {
+  --primary:   #1A1A2E;
+  --accent:    #E94560;
+  --surface:   #F8F8F8;
+  --text:      #1A1A2E;
+  --muted:     #6b7280;
+  --border:    #e5e7eb;
+  --radius:    8px;
+  --shadow:    0 2px 8px rgba(0,0,0,.08);
+  --transition: 0.2s ease;
+}
+
+// ─── Wishlist heart button on ProductCard ─────────────────────────────────────
+.product-card {
+  .wishlist-btn {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    z-index: 2;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    font-size: 1rem;
+    transition: transform var(--transition);
+    &:hover { transform: scale(1.15); }
+  }
+  .heart-filled { color: var(--accent); }
+}
+
+// ─── Star rating ──────────────────────────────────────────────────────────────
+.star-rating {
+  display: inline-flex;
+  gap: 2px;
+  .star { line-height: 1; }
+  .star.interactive { cursor: pointer; }
+  .star-filled  { color: #f59e0b; }
+  .star-half    { color: #f59e0b; }
+  .star-empty   { color: #d1d5db; }
+}
+
+// ─── Empty state ──────────────────────────────────────────────────────────────
+.empty-state {
+  @include flex(column, center, center, 1rem);
+  padding: 4rem 2rem;
+  color: var(--muted);
+  svg { font-size: 3rem; }
+  p { font-size: 1.1rem; }
+  a {
+    padding: 0.6rem 1.4rem;
+    background: var(--primary);
+    color: white;
+    border-radius: var(--radius);
+    font-size: 0.95rem;
+    &:hover { opacity: 0.85; }
+  }
+}
+
+// ─── Wishlist page ────────────────────────────────────────────────────────────
+.wishlist-page {
+  padding: 2rem 5%;
+  > h1 { @include heading(1px); margin-bottom: 2rem; }
+  .wishlist-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+}
+
+// ─── Product detail page ──────────────────────────────────────────────────────
+.product-detail-page {
+  padding: 2rem 5%;
+
+  .product-detail-hero {
+    @include flex(row, flex-start, flex-start, 3rem);
+    margin-bottom: 3rem;
+
+    img {
+      width: 22rem;
+      height: 22rem;
+      object-fit: cover;
+      border-radius: var(--radius);
+      flex-shrink: 0;
+    }
+  }
+
+  .product-detail-info {
+    @include flex(column, flex-start, flex-start, 0.75rem);
+    flex: 1;
+
+    h1 { font-size: 1.8rem; font-weight: 600; }
+
+    .product-meta {
+      @include flex(row, flex-start, center, 0.5rem);
+      .rating-count { color: var(--muted); font-size: 0.9rem; }
+    }
+
+    .product-price { font-size: 1.6rem; font-weight: 700; color: var(--primary); }
+
+    .stock-status {
+      font-size: 0.9rem;
+      font-weight: 600;
+      &.in  { color: #16a34a; }
+      &.out { color: var(--accent); }
+    }
+
+    .product-category {
+      text-transform: capitalize;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .product-actions {
+      @include flex(row, flex-start, center, 1rem);
+      margin-top: 1rem;
+
+      .btn-cart {
+        @include flex(row, center, center, 0.5rem);
+        padding: 0.75rem 1.5rem;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: var(--radius);
+        font-size: 1rem;
+        cursor: pointer;
+        transition: opacity var(--transition);
+        &:hover { opacity: 0.85; }
+        &:disabled { opacity: 0.4; cursor: not-allowed; }
+      }
+
+      .btn-wishlist {
+        @include flex;
+        width: 2.8rem;
+        height: 2.8rem;
+        border: 2px solid var(--border);
+        border-radius: 50%;
+        background: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: border-color var(--transition);
+        &:hover { border-color: var(--accent); }
+        .heart-filled { color: var(--accent); }
+      }
+    }
+  }
+
+  // Review section
+  .review-section {
+    h2 { @include heading(1px); margin-bottom: 1.5rem; }
+
+    .review-form {
+      @include flex(column, flex-start, stretch, 0.75rem);
+      background: var(--surface);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      max-width: 480px;
+      margin-bottom: 2rem;
+
+      h3 { font-size: 1rem; font-weight: 600; }
+
+      .star-select {
+        @include flex(row, flex-start, center, 4px);
+        font-size: 1.6rem;
+        .star { cursor: pointer; transition: color 0.1s; }
+        .star-filled { color: #f59e0b; }
+        .star-empty  { color: #d1d5db; }
+      }
+
+      textarea {
+        padding: 0.75rem;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        resize: vertical;
+        font-size: 0.95rem;
+        font-family: inherit;
+      }
+
+      button[type="submit"] {
+        padding: 0.65rem 1.4rem;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: var(--radius);
+        cursor: pointer;
+        font-size: 0.95rem;
+        align-self: flex-start;
+        &:disabled { opacity: 0.5; cursor: not-allowed; }
+      }
+    }
+
+    .review-list { @include flex(column, flex-start, stretch, 1rem); }
+
+    .review-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      @include flex(column, flex-start, flex-start, 0.4rem);
+
+      .review-comment { font-size: 0.95rem; line-height: 1.5; }
+      .review-date { font-size: 0.8rem; color: var(--muted); }
+
+      .btn-delete-review {
+        background: none;
+        border: none;
+        color: var(--accent);
+        cursor: pointer;
+        font-size: 0.85rem;
+        padding: 0;
+        &:hover { text-decoration: underline; }
+      }
+    }
+
+    .no-reviews { color: var(--muted); font-style: italic; }
+  }
+}
+
+// ─── Order detail page ────────────────────────────────────────────────────────
+.order-detail-page {
+  padding: 2rem 5%;
+
+  h1 { font-size: 1.6rem; font-weight: 600; margin-bottom: 0.25rem; }
+  .order-id { color: var(--muted); font-size: 0.9rem; margin-bottom: 2rem; }
+
+  .status-stepper {
+    @include flex(row, flex-start, flex-start, 0);
+    margin-bottom: 3rem;
+    overflow-x: auto;
+
+    .stepper-cancelled {
+      padding: 0.6rem 1.2rem;
+      background: #fee2e2;
+      color: #b91c1c;
+      border-radius: var(--radius);
+      font-weight: 600;
+    }
+
+    .step {
+      @include flex(column, flex-start, center, 0.4rem);
+      position: relative;
+      min-width: 7rem;
+
+      .step-circle {
+        width: 2.2rem;
+        height: 2.2rem;
+        border-radius: 50%;
+        border: 2px solid var(--border);
+        @include flex;
+        font-size: 0.85rem;
+        font-weight: 600;
+        background: white;
+        color: var(--muted);
+        z-index: 1;
+      }
+
+      .step-label {
+        font-size: 0.75rem;
+        color: var(--muted);
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      .step-line {
+        position: absolute;
+        top: 1.1rem;
+        left: 50%;
+        width: 100%;
+        height: 2px;
+        background: var(--border);
+        &.done { background: var(--primary); }
+      }
+
+      &.done .step-circle {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: white;
+      }
+      &.active .step-circle {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: white;
+      }
+      &.active .step-label { color: var(--accent); font-weight: 600; }
+    }
+  }
+
+  .order-detail-grid {
+    @include grid(1fr 320px, 2rem);
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .order-items {
+    h2 { @include heading(1px); margin-bottom: 1rem; }
+
+    .order-item-row {
+      @include flex(row, space-between, center, 1rem);
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+
+      img {
+        width: 4rem;
+        height: 4rem;
+        object-fit: cover;
+        border-radius: var(--radius);
+        flex-shrink: 0;
+      }
+
+      > div { flex: 1; p { font-weight: 500; } span { font-size: 0.9rem; color: var(--muted); } }
+      > strong { font-size: 1rem; }
+    }
+  }
+
+  .order-summary-aside {
+    @include flex(column, flex-start, stretch, 1.5rem);
+  }
+
+  .shipping-info, .price-breakdown {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    h2 { @include heading(1px); margin-bottom: 0.75rem; font-size: 0.9rem; }
+    p { font-size: 0.95rem; color: var(--text); line-height: 1.6; }
+  }
+
+  .price-row {
+    @include flex(row, space-between, center, 0);
+    padding: 0.4rem 0;
+    font-size: 0.95rem;
+    border-bottom: 1px solid var(--border);
+    &.discount span:last-child { color: #16a34a; }
+    &.total {
+      border-bottom: none;
+      font-size: 1.05rem;
+      margin-top: 0.25rem;
+      strong { font-size: 1.2rem; }
+    }
+  }
+}

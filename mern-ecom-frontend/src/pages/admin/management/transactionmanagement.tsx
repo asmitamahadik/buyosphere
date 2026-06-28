@@ -66,7 +66,6 @@ const TransactionManagement = () => {
   } 
     
   const deleteHandler = async() => {
-    console.log("delete hogaya");
     const res = await deleteOrder({
       userId: user?._id!,
       orderId: data?.order._id!
