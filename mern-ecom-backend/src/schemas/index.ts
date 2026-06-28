@@ -5,8 +5,8 @@ export const newUserSchema = z.object({
     name: z.string().min(1, "Name is required"),
     email: z.string().email("Invalid email"),
     photo: z.string().url("Photo must be a valid URL"),
-    gender: z.enum(["male", "female", "others"]),
-    dob: z.string().refine((d) => !isNaN(Date.parse(d)), "Invalid date of birth"),
+    gender: z.enum(["male", "female", "others"]).optional(),
+    dob: z.string().refine((d) => d === "" || !isNaN(Date.parse(d)), "Invalid date of birth").optional(),
     role: z.enum(["user", "admin"]).optional().default("user"),
 });
 
