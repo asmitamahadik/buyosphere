@@ -1,3 +1,4 @@
+import { Request, Response, NextFunction } from "express";
 import { stripe } from "../app.js";
 import { TryCatch } from "../middlewares/error.js";
 import { Coupon } from "../models/coupon.js";
@@ -68,7 +69,7 @@ export const allCoupons = TryCatch(async (req, res, next) => {
 export const deleteCoupon = TryCatch(async (req, res, next) => {
 
     const {id} = req.params;
-    
+
     const coupon = await Coupon.findByIdAndDelete(id);
 
     if (!coupon) return next( new ErrorHandler( "Coupon Code not found", 404));
@@ -79,3 +80,35 @@ export const deleteCoupon = TryCatch(async (req, res, next) => {
     });
 
 });
+
+
+/** Stripe webhook — verifies signature so only genuine Stripe events are processed. */
+export const stripeWebhook = async (req: Request, res: Response, next: NextFunction) => {
+    const sig = req.headers["stripe-signature"] as string;
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET ?? "";
+
+    if (!webhookSecret) {
+        return res.status(400).json({ success: false, message: "Webhook secret not configured" });
+    }
+
+    let event;
+    try {
+        event = stripe.webhooks.constructEvent(req.body as Buffer, sig, webhookSecret);
+    } catch (err: any) {
+        return res.status(400).json({ success: false, message: `Webhook Error: ${err.message}` });
+    }
+
+    switch (event.type) {
+        case "payment_intent.succeeded":
+            // Order is already created client-side after stripe.confirmPayment succeeds.
+            // Use this event for server-side reconciliation / fraud detection if needed.
+            break;
+        case "payment_intent.payment_failed":
+            // Log or notify on failure
+            break;
+        default:
+            break;
+    }
+
+    return res.json({ received: true });
+};
