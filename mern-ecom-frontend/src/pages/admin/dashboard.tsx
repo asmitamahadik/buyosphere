@@ -43,27 +43,26 @@ const Dashboard = () => {
 
         <section className="widget-container">
           <WidgetItem
-            percent={40}
+            percent={stats.changePercent.revenue}
             amount={true}
             value={stats.count.revenue}
             heading="Revenue"
             color="rgb(0, 115, 255)"
           />
           <WidgetItem
-            percent={-14}
+            percent={stats.changePercent.user}
             value={stats.count.user}
             color="rgb(0 198 202)"
             heading="Users"
           />
           <WidgetItem
-            percent={80}
+            percent={stats.changePercent.order}
             value={stats.count.order}
             color="rgb(255 196 0)"
             heading="Transactions"
           />
-
           <WidgetItem
-            percent={30}
+            percent={stats.changePercent.product}
             value={stats.count.product}
             color="rgb(76 0 255)"
             heading="Products"
