@@ -12,8 +12,9 @@ interface IUser extends Document {
     dob: Date;
     createdAt: Date;
     updatedAt: Date;
+    wishlist: mongoose.Types.ObjectId[];
     // Virtual Attribute
-    age: number; 
+    age: number;
 }
 
 
@@ -51,7 +52,12 @@ const schema = new mongoose.Schema(
             type: Date,
             required: [true, "Please Enter D.O.B."],
         },
-        
+        wishlist: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Product",
+            },
+        ],
     },
     {
         timestamps: true,

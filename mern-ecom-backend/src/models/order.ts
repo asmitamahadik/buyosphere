@@ -60,7 +60,7 @@ const schema = new mongoose.Schema(
 
         status: {
             type: String,
-            enum: ["Processing", "Shipped", "Delivered"],
+            enum: ["Processing", "Shipped", "Out for Delivery", "Delivered", "Cancelled"],
             default: "Processing"
         },
 
@@ -81,5 +81,8 @@ const schema = new mongoose.Schema(
         timestamps: true,
     }
 );
+
+schema.index({ user: 1 });
+schema.index({ createdAt: -1 });
 
 export const Order = mongoose.model("Order", schema);

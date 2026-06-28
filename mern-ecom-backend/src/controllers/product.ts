@@ -100,7 +100,7 @@ export const newProduct = TryCatch(
         if (!photo) return next( new ErrorHandler("Please Add a Photo", 400));
 
         if (!name || !price || !stock || !category) {
-            rm(photo.path, () => console.log("Deleted"));
+            rm(photo.path, () => {});
             return next( new ErrorHandler("Please Enter All Fields", 400));
         }
             
@@ -132,7 +132,7 @@ export const updateProduct = TryCatch(
         if(!product) return next( new ErrorHandler("Product Not Found", 404));
 
         if (photo) {
-            rm(product.photo, () => console.log("Old photo Deleted"));
+            rm(product.photo, () => {});
             product.photo = photo.path;
         }
             
@@ -158,9 +158,9 @@ export const deleteProduct  = TryCatch(
         const product = await Product.findById(req.params.id);
         if(!product) return next( new ErrorHandler("Product Not Found", 404));
 
-        rm(product.photo, () => console.log("Product Photo Deleted"));
+        rm(product.photo, () => {});
 
-        await Product.deleteOne();
+        await product.deleteOne();
         
         invalidateCache({ product: true, productId: String(product._id), admin: true });
     
