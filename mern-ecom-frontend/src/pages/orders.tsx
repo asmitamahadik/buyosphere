@@ -64,7 +64,7 @@ const Orders = () => {
     useEffect(() => {
         if (data) setRows(data.orders.map(order => (
           {
-            _id: order.user._id,
+            _id: order._id,
             amount: order.total,
             discount: order.discount,
             quantity: order.orderItems.length,
@@ -76,7 +76,7 @@ const Orders = () => {
             }>
             {order.status}
             </span>),
-            action: (<Link to={`/admin/transaction/${order._id}`} >Manage</Link>),
+            action: (<Link to={`/order/${order._id}`}>View</Link>),
 
           }
         )));
