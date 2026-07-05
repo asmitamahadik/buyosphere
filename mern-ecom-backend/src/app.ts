@@ -36,8 +36,8 @@ export const myCache = new NodeCache();
 
 const app = express();
 
-// Security headers
-app.use(helmet());
+// Security headers — allow cross-origin image loading for static uploads
+app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 
 // Restrict CORS to the known frontend origin
 app.use(cors({

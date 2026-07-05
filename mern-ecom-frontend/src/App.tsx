@@ -50,9 +50,13 @@ const App = () => {
     useEffect(() => {
         onAuthStateChanged(auth, async (firebaseUser) => {
             if (firebaseUser) {
-                const data = await getUser(firebaseUser.uid);
-                dispatch(userExist(data.user));
-                dispatch(loadWishlist(firebaseUser.uid));
+                try {
+                    const data = await getUser(firebaseUser.uid);
+                    dispatch(userExist(data.user));
+                    dispatch(loadWishlist(firebaseUser.uid));
+                } catch {
+                    dispatch(userNotExist());
+                }
             } else {
                 dispatch(userNotExist());
             }

@@ -319,7 +319,7 @@ $color3: #0068A8;
   .tile-label { font-size: 0.82rem; font-weight: 600; color: var(--text); text-align: center; }
 }
 
-// ─── Product strip ────────────────────────────────────────────────────────────
+// ─── Product strip (horizontal scroll) ───────────────────────────────────────
 .product-strip {
   display: flex;
   gap: 1rem;
@@ -328,6 +328,29 @@ $color3: #0068A8;
   &::-webkit-scrollbar { height: 4px; }
   &::-webkit-scrollbar-track { background: var(--border); border-radius: 4px; }
   &::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+}
+
+// ─── Masonry / waterfall grid (Pinterest-style) ───────────────────────────────
+.masonry-grid {
+  columns: 4 160px;
+  column-gap: 1rem;
+
+  .product-card {
+    width: 100%;
+    flex: unset;
+    display: block;
+    break-inside: avoid;
+    margin-bottom: 1rem;
+
+    &:nth-child(5n+1) .card-image-wrap { aspect-ratio: 3/4; }
+    &:nth-child(5n+2) .card-image-wrap { aspect-ratio: 2/3; }
+    &:nth-child(5n+3) .card-image-wrap { aspect-ratio: 4/5; }
+    &:nth-child(5n+4) .card-image-wrap { aspect-ratio: 1/1; }
+    &:nth-child(5n+5) .card-image-wrap { aspect-ratio: 3/5; }
+  }
+
+  @media (max-width: 900px) { columns: 3 140px; }
+  @media (max-width: 600px) { columns: 2 130px; }
 }
 
 // ─── Product card ─────────────────────────────────────────────────────────────
@@ -587,9 +610,26 @@ $color3: #0068A8;
     }
 
     .search-product-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
+      columns: 4 160px;
+      column-gap: 1rem;
+
+      .product-card {
+        width: 100%;
+        flex: unset;
+        display: block;
+        break-inside: avoid;
+        margin-bottom: 1rem;
+
+        // Vary image heights so cards cascade like Pinterest
+        &:nth-child(5n+1) .card-image-wrap { aspect-ratio: 3/4; }
+        &:nth-child(5n+2) .card-image-wrap { aspect-ratio: 2/3; }
+        &:nth-child(5n+3) .card-image-wrap { aspect-ratio: 4/5; }
+        &:nth-child(5n+4) .card-image-wrap { aspect-ratio: 1/1; }
+        &:nth-child(5n+5) .card-image-wrap { aspect-ratio: 3/5; }
+      }
+
+      @media (max-width: 900px) { columns: 3 140px; }
+      @media (max-width: 600px) { columns: 2 140px; }
     }
 
     article {

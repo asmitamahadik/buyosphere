@@ -87,13 +87,13 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Latest products strip */}
+            {/* Latest products masonry */}
             <section className="section-wrap">
                 <div className="section-header">
                     <h2>New Arrivals</h2>
                     <Link to="/search" className="view-all">View All</Link>
                 </div>
-                <div className="product-strip">
+                <div className="masonry-grid">
                     {isLoading
                         ? skeletons.map((_, i) => <div key={i} className="card-skeleton" />)
                         : data?.products.map((product) => (
@@ -128,7 +128,7 @@ const Home = () => {
                     <div className="section-header">
                         <h2>Recently Viewed</h2>
                     </div>
-                    <div className="product-strip">
+                    <div className="masonry-grid">
                         {recentlyViewed.map((product) => (
                             <ProductCard
                                 key={product._id}
