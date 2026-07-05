@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import ProductCard from "../components/product-card";
@@ -27,11 +28,18 @@ const Search = () => {
     const { data: categoriesResponse, isError: isCategoryError, error: categoryError, isLoading: isCategoryLoading } =
         useCategoriesQuery("");
 
-    const [search, setSearch] = useState<string>("");
+    const [searchParams] = useSearchParams();
+    const urlQuery = useMemo(() => searchParams.get("q") ?? "", [searchParams]);
+    const urlCategory = useMemo(() => searchParams.get("category") ?? "", [searchParams]);
+
+    const [search, setSearch] = useState<string>(urlQuery);
     const [sort, setSort] = useState<string>("");
     const [maxPrice, setMaxPrice] = useState<number>(100000);
-    const [category, setCategory] = useState<string>("");
+    const [category, setCategory] = useState<string>(urlCategory);
     const [page, setPage] = useState<number>(1);
+
+    useEffect(() => { setSearch(urlQuery); setPage(1); }, [urlQuery]);
+    useEffect(() => { setCategory(urlCategory); setPage(1); }, [urlCategory]);
 
     const debouncedSearch = useDebounce(search, 300);
 

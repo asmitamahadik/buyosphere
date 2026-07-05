@@ -11,6 +11,7 @@ import { userExist, userNotExist } from "./redux/reducer/userReducer";
 import { getUser } from "./redux/api/userAPI";
 import { UserReducerInitialState } from "./types/reducer-types";
 import ProtectedRoute from "./components/protected-route";
+import Footer from "./components/footer";
 import { AppDispatch } from "./redux/store";
 import { loadWishlist } from "./redux/reducer/wishlistReducer";
 
@@ -121,6 +122,7 @@ const App = () => {
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </Suspense>
+            <Footer />
             <Toaster position="top-right" />
         </Router>
     );
