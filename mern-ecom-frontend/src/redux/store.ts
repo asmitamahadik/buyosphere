@@ -5,10 +5,12 @@ import { productAPI } from "./api/productAPI";
 import { cartReducer } from "./reducer/cartReducer";
 import { orderApi } from "./api/orderAPI";
 import { dashboardApi } from "./api/dashboardAPI";
+import { wishlistReducer } from "./reducer/wishlistReducer";
+import { recentlyViewedReducer } from "./reducer/recentlyViewedReducer";
 
 
 
-export const server = import.meta.env.VITE_SERVER;
+export const server = import.meta.env.VITE_SERVER as string;
 
 export const store = configureStore({
 
@@ -18,7 +20,9 @@ export const store = configureStore({
         [orderApi.reducerPath]: orderApi.reducer,
         [dashboardApi.reducerPath]: dashboardApi.reducer,
         [userReducer.name]: userReducer.reducer,
-        [cartReducer.name]: cartReducer.reducer
+        [cartReducer.name]: cartReducer.reducer,
+        [wishlistReducer.name]: wishlistReducer.reducer,
+        [recentlyViewedReducer.name]: recentlyViewedReducer.reducer,
 
     },
     middleware: (getDefaultMiddleware) => 
@@ -31,3 +35,4 @@ export const store = configureStore({
 
 
 export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
