@@ -1,5 +1,6 @@
 import { memo } from "react";
-import { FaHeart, FaPlus, FaRegHeart } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { FaHeart, FaRegHeart, FaShoppingBag } from "react-icons/fa";
 import { server } from "../redux/store";
 import { CartItem } from "../types/types";
 
@@ -9,6 +10,7 @@ type ProductCardProps = {
     name: string;
     price: number;
     stock: number;
+    category?: string;
     handler: (cartItem: CartItem) => string | undefined;
     isWishlisted?: boolean;
     onWishlistToggle?: (productId: string) => void;
@@ -20,15 +22,18 @@ const ProductCard = memo(({
     name,
     price,
     stock,
+    category,
     handler,
     isWishlisted = false,
     onWishlistToggle,
 }: ProductCardProps) => {
     return (
         <div className="product-card">
-            <img src={`${server}/${photo}`} alt={name} />
-            <p>{name}</p>
-            <span>₹{price}</span>
+            <Link to={`/product/${productId}`} className="card-image-wrap">
+                <img src={`${server}/${photo}`} alt={name} />
+                {stock < 1 && <span className="out-of-stock-badge">Out of Stock</span>}
+                {category && <span className="category-badge">{category}</span>}
+            </Link>
 
             {onWishlistToggle && (
                 <button
@@ -43,13 +48,20 @@ const ProductCard = memo(({
                 </button>
             )}
 
-            <div>
+            <div className="card-info">
+                <Link to={`/product/${productId}`}>
+                    <p className="card-name">{name}</p>
+                </Link>
+                <div className="card-price-row">
+                    <span className="card-price">₹{price.toLocaleString("en-IN")}</span>
+                </div>
                 <button
-                    onClick={() =>
-                        handler({ productId, photo, name, price, stock, quantity: 1 })
-                    }
+                    className="card-add-btn"
+                    disabled={stock < 1}
+                    onClick={() => handler({ productId, photo, name, price, stock, quantity: 1 })}
                 >
-                    <FaPlus />
+                    <FaShoppingBag />
+                    {stock < 1 ? "Out of Stock" : "Add to Bag"}
                 </button>
             </div>
         </div>

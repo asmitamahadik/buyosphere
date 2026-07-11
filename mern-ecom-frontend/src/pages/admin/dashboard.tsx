@@ -4,7 +4,7 @@ import { FaRegBell } from "react-icons/fa";
 import { HiTrendingDown, HiTrendingUp } from "react-icons/hi";
 import AdminSidebar from "../../components/admin/AdminSidebar";
 import { BarChart, DoughnutChart } from "../../components/admin/Charts";
-import Table from "../../components/admin/DashboardTable"; // resolve error
+
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { useStatsQuery } from "../../redux/api/dashboardAPI";

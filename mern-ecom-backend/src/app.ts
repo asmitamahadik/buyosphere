@@ -1,4 +1,6 @@
 import express from "express";
+import { fileURLToPath } from "url";
+import path from "path";
 import { connectDB } from "./utils/features.js";
 import { errorMiddleware } from "./middlewares/error.js";
 import NodeCache from "node-cache";
@@ -8,6 +10,9 @@ import Stripe from "stripe";
 import cors from "cors";
 import helmet from "helmet";
 import { rateLimit } from "express-rate-limit";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Importing Routes
 import userRoute from './routes/user.js';
@@ -36,8 +41,8 @@ export const myCache = new NodeCache();
 
 const app = express();
 
-// Security headers
-app.use(helmet());
+// Security headers — allow cross-origin image loading for static uploads
+app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 
 // Restrict CORS to the known frontend origin
 app.use(cors({
@@ -71,9 +76,14 @@ app.use("/api/v1/dashboard", dashboardRoute);
 app.use("/api/v1/review", reviewRoute);
 app.use("/api/v1/wishlist", wishlistRoute);
 
-app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 app.use(errorMiddleware);
 
-app.listen(port, () => {
-    console.log(`Server is running on ${serverDomain}`);
-});
+// Don't call listen in serverless (Vercel) — just export the app
+if (!process.env.VERCEL) {
+    app.listen(port, () => {
+        console.log(`Server is running on ${serverDomain}`);
+    });
+}
+
+export default app;

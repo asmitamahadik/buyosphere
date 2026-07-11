@@ -5,9 +5,7 @@ import { Product } from "../models/product.js";
 import { Order } from "../models/order.js";
 
 export const connectDB = (uri: string) => {
-    mongoose.connect(uri, {
-        dbName: "Ecom-Jan-23"
-    }).then((c) => {
+    mongoose.connect(uri).then((c) => {
         console.log(`DB connected to ${c.connection.host}`)
     }).catch((e) => {
         console.log(e)

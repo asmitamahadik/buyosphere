@@ -11,6 +11,7 @@ import { userExist, userNotExist } from "./redux/reducer/userReducer";
 import { getUser } from "./redux/api/userAPI";
 import { UserReducerInitialState } from "./types/reducer-types";
 import ProtectedRoute from "./components/protected-route";
+import Footer from "./components/footer";
 import { AppDispatch } from "./redux/store";
 import { loadWishlist } from "./redux/reducer/wishlistReducer";
 
@@ -49,9 +50,13 @@ const App = () => {
     useEffect(() => {
         onAuthStateChanged(auth, async (firebaseUser) => {
             if (firebaseUser) {
-                const data = await getUser(firebaseUser.uid);
-                dispatch(userExist(data.user));
-                dispatch(loadWishlist(firebaseUser.uid));
+                try {
+                    const data = await getUser(firebaseUser.uid);
+                    dispatch(userExist(data.user));
+                    dispatch(loadWishlist(firebaseUser.uid));
+                } catch {
+                    dispatch(userNotExist());
+                }
             } else {
                 dispatch(userNotExist());
             }
@@ -121,6 +126,7 @@ const App = () => {
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </Suspense>
+            <Footer />
             <Toaster position="top-right" />
         </Router>
     );
