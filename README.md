@@ -1,64 +1,77 @@
 # Buyosphere
 
-A full-stack fashion e-commerce platform built with the MERN stack.
+**Live demo:** https://mern-ecom-frontend-ruddy.vercel.app
 
-## Tech Stack
-
-**Frontend**
-- React 18 + TypeScript (Vite)
-- Redux Toolkit + RTK Query
-- Firebase Authentication (Google OAuth)
-- Stripe Payments
-- SCSS
-
-**Backend**
-- Node.js + Express + TypeScript
-- MongoDB + Mongoose
-- Zod validation
-- Stripe webhooks
-- Helmet + rate limiting
+A full-stack fashion e-commerce platform built with the MERN stack and TypeScript. Shoppers can browse and search products, save a wishlist, check out with Stripe and track their orders. Admins get a panel to manage products, orders and customers, with analytics charts.
 
 ## Features
 
-- Browse fashion products by category (Men, Women, Kids, Ethnic, Western, Accessories, Footwear, Sale)
+**Shopping**
+- Browse products by category (Men, Women, Kids, Ethnic, Western, Accessories, Footwear, Sale)
 - Pinterest-style masonry product grid
-- Product search with filters (category, price, sort) and 300ms debounce
+- Search with category, price and sort filters, and a 300ms debounce
 - Product detail page with reviews and star ratings
-- Wishlist (persisted to database per user)
-- Recently viewed products (persisted to localStorage)
-- Shopping cart + Stripe checkout
-- Order tracking with status stepper
-- Google Sign-In with Firebase
-- Admin panel: manage products, orders, customers, analytics charts
+- Wishlist, saved to the database for each user
+- Recently viewed products, saved in localStorage
+- Shopping cart and Stripe checkout
+- Order tracking with a status stepper
 
-## Project Structure
+**Accounts**
+- Google Sign-In with Firebase Authentication
+
+**Admin panel**
+- Manage products, orders and customers
+- Analytics charts
+
+## Tech stack
+
+**Frontend**
+- React 18, TypeScript, Vite
+- Redux Toolkit and RTK Query
+- React Router, Axios
+- Firebase Authentication (Google OAuth)
+- Stripe (`@stripe/react-stripe-js`)
+- Ant Design, Chart.js, React Hot Toast
+- SCSS
+
+**Backend**
+- Node.js, Express, TypeScript
+- MongoDB with Mongoose
+- Zod for request validation
+- Stripe, including webhooks
+- Helmet and express-rate-limit for security
+- node-cache for caching
+
+## Project structure
 
 ```
-├── mern-ecom-frontend/   # Vite + React + TypeScript
+├── mern-ecom-frontend/   Vite, React and TypeScript
 │   ├── src/
-│   │   ├── components/   # Header, Footer, ProductCard, Loader ...
-│   │   ├── pages/        # Home, Search, ProductDetail, Cart, Orders ...
-│   │   ├── redux/        # Store, RTK Query APIs, reducers
-│   │   ├── styles/       # SCSS design tokens and component styles
-│   │   └── config/       # Environment variable validation
+│   │   ├── components/   Header, Footer, ProductCard, Loader and more
+│   │   ├── pages/        Home, Search, ProductDetail, Cart, Orders and more
+│   │   ├── redux/        Store, RTK Query APIs, reducers
+│   │   ├── styles/       SCSS design tokens and component styles
+│   │   └── config/       Environment variable validation
 │   └── vercel.json
 │
-└── mern-ecom-backend/    # Express + TypeScript
+└── mern-ecom-backend/    Express and TypeScript
     └── src/
-        ├── routes/       # user, product, order, payment, review, wishlist
-        ├── models/       # Mongoose schemas
-        ├── controllers/  # Route handlers
-        ├── middlewares/  # Auth, error, multer
-        └── utils/        # DB connection, cache, helpers
+        ├── routes/       user, product, order, payment, review, wishlist
+        ├── models/       Mongoose schemas
+        ├── controllers/  Route handlers
+        ├── middlewares/  Auth, error handling, multer
+        └── utils/        DB connection, cache, helpers
 ```
 
-## Local Development
+## Getting started
 
 ### Prerequisites
-- Node.js 18+
-- MongoDB running locally or a MongoDB Atlas URI
 
-### Backend
+- Node.js 18 or later
+- MongoDB running locally, or a MongoDB Atlas connection string
+- A Stripe account (test mode) and a Firebase project
+
+### 1. Backend
 
 ```bash
 cd mern-ecom-backend
@@ -66,7 +79,7 @@ npm install
 npm run dev
 ```
 
-### Frontend
+### 2. Frontend
 
 ```bash
 cd mern-ecom-frontend
@@ -74,18 +87,20 @@ npm install
 npm run dev
 ```
 
-App runs at `http://localhost:5173`, backend at `http://localhost:4000`.
+The app runs at http://localhost:5173 and the API at http://localhost:4000.
 
-### Seed the database
+### 3. Seed the database (optional)
 
 ```bash
 cd mern-ecom-backend
 npx tsx src/seed.ts
 ```
 
-Inserts 29 sample fashion products across all categories.
+This adds 29 sample fashion products across all categories.
 
-## Environment Variables
+## Environment variables
+
+Create a `.env` file in each folder. Do not commit these files.
 
 **Frontend** (`mern-ecom-frontend/.env`)
 
@@ -112,12 +127,25 @@ SERVER_DOMAIN=http://localhost:4000
 PRODUCT_PER_PAGE=8
 ```
 
-## Admin Access
+## Testing checkout
 
-After signing in with Google, set your user role to admin in MongoDB:
+With Stripe in test mode, pay with the test card `4242 4242 4242 4242`, any future expiry date and any CVC. No real payment is made.
+
+## Admin access
+
+1. Sign in with Google.
+2. Set your user's role to admin in MongoDB:
 
 ```js
 db.users.updateOne({ email: "your@email.com" }, { $set: { role: "admin" } })
 ```
 
-Then access the admin panel at `/admin/dashboard`.
+3. Open the admin panel at `/admin/dashboard`.
+
+## Security
+
+- Request validation with Zod
+- HTTP security headers with Helmet
+- Rate limiting with express-rate-limit
+- Admin pages and routes restricted by user role
+- Secrets kept in environment variables, never in the repo
