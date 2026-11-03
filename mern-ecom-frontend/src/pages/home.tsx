@@ -82,7 +82,7 @@ const Home = () => {
                     <h2>New <em>arrivals</em></h2>
                     <Link to="/search" className="bh-view-all">View all &rarr;</Link>
                 </div>
-                <div className="masonry-grid">
+                <div className="bh-product-grid">
                     {isLoading
                         ? skeletons.map((_, i) => <div key={i} className="card-skeleton" />)
                         : data?.products.map((product) => (
@@ -109,7 +109,7 @@ const Home = () => {
                     <div className="bh-section__header">
                         <h2>Recently <em>viewed</em></h2>
                     </div>
-                    <div className="masonry-grid">
+                    <div className="bh-product-grid">
                         {recentlyViewed.map((product) => (
                             <ProductCard
                                 key={product._id}

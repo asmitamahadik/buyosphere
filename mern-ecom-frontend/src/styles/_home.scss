@@ -56,6 +56,28 @@ $bh-sand:       #e3d3b8;
     &:hover { text-decoration: underline; }
   }
 
+  // ─── Product grid (uniform, no waterfall) ────────────────────────────────
+  .bh-product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.75rem 1.5rem;
+
+    .product-card {
+      width: 100%;
+    }
+
+    .card-skeleton {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 3 / 4.6;
+    }
+
+    @media (max-width: 800px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem 1rem;
+    }
+  }
+
   // ─── Hero ─────────────────────────────────────────────────────────────────
   .bh-hero {
     position: relative;
