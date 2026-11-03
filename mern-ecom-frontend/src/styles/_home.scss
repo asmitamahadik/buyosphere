@@ -388,48 +388,128 @@ $bh-sand:       #e3d3b8;
   // ─── Sale reveal ──────────────────────────────────────────────────────────
   .bh-sale {
     position: relative;
-    height: 240vh;
+    height: 220vh;
     background: $bh-cream;
+
+    @media (max-width: 800px) {
+      height: 180vh;
+    }
   }
 
   .bh-sale__stage {
     position: sticky;
-    top: 0;
-    height: 100vh;
+    top: var(--header-h, 120px);
+    height: calc(100svh - var(--header-h, 120px));
+    overflow: hidden;
+    background: $bh-cream;
+  }
+
+  .bh-sale__layer {
+    position: absolute;
+    inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-    padding-top: var(--header-h, 0px);
   }
 
-  .bh-sale__circle {
-    position: absolute;
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    background: $bh-terracotta;
-    will-change: transform;
+  .bh-sale__layer--base {
+    z-index: 1;
   }
 
-  .bh-sale__content {
-    position: relative;
+  .bh-sale__layer--flood {
     z-index: 2;
-    max-width: 560px;
-    text-align: center;
+    background: $bh-terracotta;
+    will-change: clip-path;
+  }
+
+  .bh-sale__ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 3;
+    border-radius: 50%;
+    border: 1px solid rgba($bh-cream, 0.9);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .bh-sale__textblock {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 80%;
+    max-width: 1100px;
     padding: 0 1.5rem;
-    color: $bh-cream;
+    text-align: center;
+  }
 
-    h2 {
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      margin-bottom: 1rem;
-    }
+  .bh-sale__eyebrow {
+    font-size: 0.8rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: $bh-olive;
 
-    p {
-      font-size: 1.05rem;
-      opacity: 0.9;
-      margin-bottom: 1.75rem;
+    &.bh-sale__eyebrow--cream { color: rgba($bh-cream, 0.85); }
+  }
+
+  .bh-sale__headline {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(2.6rem, 8vw, 6rem);
+    line-height: 1.04;
+    color: $bh-ink;
+
+    &.bh-sale__headline--cream { color: $bh-cream; }
+
+    @media (max-width: 800px) {
+      font-size: clamp(2rem, 9vw, 3rem);
+      max-width: 18ch;
     }
+  }
+
+  .bh-sale__reveal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .bh-sale__subtext {
+    font-size: 1.05rem;
+    color: rgba($bh-cream, 0.9);
+    max-width: 440px;
+  }
+
+  .bh-sale__scroll-cue {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    color: rgba($bh-ink, 0.55);
+  }
+
+  .bh-sale__scroll-arrow {
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 50%;
+    border: 1px solid rgba($bh-ink, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+  }
+
+  .bh-sale__scroll-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
 
   .bh-sale__cta {
@@ -452,6 +532,8 @@ $bh-sand:       #e3d3b8;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    .bh-sale__textblock { width: 100%; max-width: 640px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
