@@ -1,1 +1,438 @@
-// Home styles moved to app.scss
+// ─── Buyosphere home page (warm editorial) ────────────────────────────────────
+$bh-cream:      #f4eee3;
+$bh-ink:        #1b1a17;
+$bh-terracotta: #c4572f;
+$bh-olive:      #6b7a4b;
+$bh-sand:       #e3d3b8;
+
+@keyframes bh-ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.bh-home {
+  background: $bh-cream;
+  color: $bh-ink;
+
+  em {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    color: $bh-terracotta;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  // ─── Shared section wrapper ──────────────────────────────────────────────
+  .bh-section {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 5rem 4%;
+
+    @media (max-width: 800px) { padding: 3.5rem 6%; }
+  }
+
+  .bh-section__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+
+    h2 { font-size: clamp(1.6rem, 3vw, 2.4rem); }
+  }
+
+  .bh-view-all {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $bh-terracotta;
+    white-space: nowrap;
+    &:hover { text-decoration: underline; }
+  }
+
+  // ─── Hero ─────────────────────────────────────────────────────────────────
+  .bh-hero {
+    position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: clamp(3rem, 6vw, 5rem) 4% clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .bh-hero__inner {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 3rem;
+    align-items: center;
+
+    @media (max-width: 800px) {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+  }
+
+  .bh-hero__copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.1rem;
+    max-width: 520px;
+  }
+
+  .bh-hero__eyebrow {
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: $bh-olive;
+  }
+
+  .bh-hero__headline {
+    font-size: clamp(2.4rem, 5.4vw, 4.2rem);
+    line-height: 1.08;
+    font-weight: 500;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .bh-hero__word-mask {
+    overflow: hidden;
+    display: inline-block;
+    padding-bottom: 0.1em;
+    margin-right: 0.3em;
+  }
+
+  .bh-hero__word {
+    display: inline-block;
+  }
+
+  .bh-hero__word--accent {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: $bh-terracotta;
+  }
+
+  .bh-hero__sub {
+    font-size: 1.05rem;
+    color: rgba($bh-ink, 0.72);
+    max-width: 420px;
+  }
+
+  .bh-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: $bh-ink;
+    color: $bh-cream;
+    padding: 0.9rem 1.7rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-top: 0.4rem;
+    transition: transform 0.25s ease, background 0.25s ease;
+
+    &:hover {
+      background: $bh-terracotta;
+      transform: translateY(-2px);
+    }
+  }
+
+  .bh-hero__visual {
+    position: relative;
+    height: clamp(360px, 42vw, 480px);
+
+    @media (max-width: 800px) { height: 340px; }
+  }
+
+  .bh-hero__shape {
+    position: absolute;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  .bh-hero__shape--arch {
+    top: 0;
+    left: 6%;
+    width: 52%;
+    height: 88%;
+    border-radius: 50% 50% 0 0;
+    background: $bh-terracotta;
+    z-index: 2;
+    box-shadow: 0 30px 60px -20px rgba($bh-ink, 0.35);
+  }
+
+  .bh-hero__shape--circle {
+    right: 2%;
+    bottom: 0;
+    width: 42%;
+    height: 42%;
+    border-radius: 50%;
+    background: $bh-olive;
+    z-index: 3;
+    box-shadow: 0 20px 40px -15px rgba($bh-ink, 0.3);
+  }
+
+  .bh-hero__shape--block {
+    right: 0;
+    top: 6%;
+    width: 36%;
+    height: 46%;
+    border-radius: 28px;
+    background: $bh-sand;
+    z-index: 1;
+  }
+
+  .bh-hero__badge {
+    position: absolute;
+    left: -4%;
+    bottom: 14%;
+    width: 108px;
+    height: 108px;
+    border-radius: 50%;
+    background: $bh-cream;
+    border: 1px solid rgba($bh-ink, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+    box-shadow: 0 10px 25px rgba($bh-ink, 0.15);
+
+    svg { width: 100%; height: 100%; }
+    text {
+      fill: $bh-ink;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 800px) {
+      width: 84px;
+      height: 84px;
+      left: -2%;
+      bottom: 6%;
+    }
+  }
+
+  .bh-hero__scroll-cue {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    color: rgba($bh-ink, 0.55);
+    width: fit-content;
+    margin: 3rem auto 0;
+  }
+
+  .bh-hero__scroll-arrow {
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 50%;
+    border: 1px solid rgba($bh-ink, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+  }
+
+  .bh-hero__scroll-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  // ─── Ticker ───────────────────────────────────────────────────────────────
+  .bh-ticker {
+    background: $bh-ink;
+    color: $bh-cream;
+    overflow: hidden;
+    padding: 0.9rem 0;
+  }
+
+  .bh-ticker__track {
+    display: flex;
+    width: max-content;
+    gap: 2.5rem;
+    animation: bh-ticker-scroll 32s linear infinite;
+  }
+
+  .bh-ticker:hover .bh-ticker__track {
+    animation-play-state: paused;
+  }
+
+  .bh-ticker__item {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  .bh-ticker__star {
+    color: $bh-terracotta;
+    font-size: 0.7rem;
+  }
+
+  // ─── Category list ────────────────────────────────────────────────────────
+  .bh-categories {
+    border-top: 1px solid rgba($bh-ink, 0.12);
+  }
+
+  .bh-categories__row {
+    border-bottom: 1px solid rgba($bh-ink, 0.12);
+  }
+
+  .bh-categories__link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    height: 5.5rem;
+    padding: 0 0.25rem;
+    overflow: hidden;
+
+    @media (max-width: 800px) {
+      height: 4.2rem;
+      gap: 1rem;
+    }
+  }
+
+  .bh-categories__panel {
+    position: absolute;
+    inset: -2px;
+    background: $bh-terracotta;
+    transform: translateY(101%);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 1;
+  }
+
+  .bh-categories__index {
+    position: relative;
+    z-index: 2;
+    font-family: 'Fraunces', serif;
+    font-size: 0.95rem;
+    color: rgba($bh-ink, 0.45);
+    width: 2.4rem;
+    flex-shrink: 0;
+    transition: color 0.3s ease;
+  }
+
+  .bh-categories__name {
+    position: relative;
+    z-index: 2;
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    font-weight: 500;
+    flex: 1;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease;
+  }
+
+  .bh-categories__arrow {
+    position: relative;
+    z-index: 2;
+    font-size: 1.3rem;
+    color: $bh-terracotta;
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: all 0.3s ease;
+  }
+
+  .bh-categories__link:hover {
+    .bh-categories__panel { transform: translateY(0%); }
+    .bh-categories__index,
+    .bh-categories__name { color: $bh-cream; }
+    .bh-categories__name { transform: translateX(18px); }
+    .bh-categories__arrow {
+      opacity: 1;
+      transform: translateX(0);
+      color: $bh-cream;
+    }
+  }
+
+  // ─── Sale reveal ──────────────────────────────────────────────────────────
+  .bh-sale {
+    position: relative;
+    height: 240vh;
+    background: $bh-cream;
+  }
+
+  .bh-sale__stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding-top: var(--header-h, 0px);
+  }
+
+  .bh-sale__circle {
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: $bh-terracotta;
+    will-change: transform;
+  }
+
+  .bh-sale__content {
+    position: relative;
+    z-index: 2;
+    max-width: 560px;
+    text-align: center;
+    padding: 0 1.5rem;
+    color: $bh-cream;
+
+    h2 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.05rem;
+      opacity: 0.9;
+      margin-bottom: 1.75rem;
+    }
+  }
+
+  .bh-sale__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: $bh-cream;
+    color: $bh-ink;
+    padding: 0.85rem 1.8rem;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: background 0.25s ease;
+    &:hover { background: $bh-sand; }
+  }
+
+  .bh-sale--static {
+    height: auto;
+    background: $bh-terracotta;
+    padding: clamp(3rem, 6vw, 5rem) 4%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bh-ticker__track { animation: none !important; }
+  }
+}

@@ -1,6 +1,7 @@
 import { memo } from "react";
 import { Link } from "react-router-dom";
 import { FaHeart, FaRegHeart, FaShoppingBag } from "react-icons/fa";
+import { motion, useReducedMotion } from "framer-motion";
 import { server } from "../redux/store";
 import { CartItem } from "../types/types";
 
@@ -27,8 +28,16 @@ const ProductCard = memo(({
     isWishlisted = false,
     onWishlistToggle,
 }: ProductCardProps) => {
+    const prefersReducedMotion = useReducedMotion();
+
     return (
-        <div className="product-card">
+        <motion.div
+            className="product-card"
+            initial={prefersReducedMotion ? undefined : { opacity: 0, y: 24 }}
+            whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.45, ease: "easeOut" }}
+        >
             <Link to={`/product/${productId}`} className="card-image-wrap">
                 <img src={`${server}/${photo}`} alt={name} />
                 {stock < 1 && <span className="out-of-stock-badge">Out of Stock</span>}
@@ -64,7 +73,7 @@ const ProductCard = memo(({
                     {stock < 1 ? "Out of Stock" : "Add to Bag"}
                 </button>
             </div>
-        </div>
+        </motion.div>
     );
 });
 

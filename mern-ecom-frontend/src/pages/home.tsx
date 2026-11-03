@@ -4,24 +4,31 @@ import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import ProductCard from "../components/product-card";
 import PageTitle from "../components/page-title";
+import HeroSection from "../components/home/HeroSection";
+import Ticker from "../components/home/Ticker";
+import CategoryList from "../components/home/CategoryList";
+import SaleReveal from "../components/home/SaleReveal";
 import { useLatestProductsQuery } from "../redux/api/productAPI";
 import { addToCart } from "../redux/reducer/cartReducer";
 import { addWishlistItem, removeWishlistItem } from "../redux/reducer/wishlistReducer";
 import { CartItem } from "../types/types";
 import { RootState, AppDispatch } from "../redux/store";
+import { useLenis } from "../hooks/useLenis";
 
 const CATEGORIES = [
-    { label: "Men",         emoji: "👔", slug: "men" },
-    { label: "Women",       emoji: "👗", slug: "women" },
-    { label: "Kids",        emoji: "🧒", slug: "kids" },
-    { label: "Ethnic",      emoji: "🥻", slug: "ethnic" },
-    { label: "Western",     emoji: "🧥", slug: "western" },
-    { label: "Accessories", emoji: "🧣", slug: "accessories" },
-    { label: "Footwear",    emoji: "👟", slug: "footwear" },
-    { label: "Sale",        emoji: "🏷️", slug: "sale" },
+    { label: "Men",         slug: "men" },
+    { label: "Women",       slug: "women" },
+    { label: "Kids",        slug: "kids" },
+    { label: "Ethnic",      slug: "ethnic" },
+    { label: "Western",     slug: "western" },
+    { label: "Accessories", slug: "accessories" },
+    { label: "Footwear",    slug: "footwear" },
+    { label: "Sale",        slug: "sale" },
 ];
 
 const Home = () => {
+    useLenis();
+
     const dispatch = useDispatch<AppDispatch>();
     const { user } = useSelector((state: RootState) => state.userReducer);
     const wishlistItems = useSelector((state: RootState) => state.wishlist.items);
@@ -56,42 +63,24 @@ const Home = () => {
     const skeletons = Array.from({ length: 5 });
 
     return (
-        <div className="home-page">
+        <div className="bh-home">
             <PageTitle title="Home" />
 
-            {/* Hero banner */}
-            <section className="hero-banner">
-                <div className="hero-slide">
-                    <div className="hero-text">
-                        <p className="hero-tag">New Collection</p>
-                        <h1>Style That<br />Speaks You</h1>
-                        <p className="hero-sub">Discover the latest fashion for every occasion</p>
-                        <Link to="/search" className="hero-cta">Shop Now</Link>
-                    </div>
-                    <div className="hero-image-block" />
+            <HeroSection products={data?.products ?? []} />
+
+            <Ticker items={CATEGORIES.map((c) => c.label)} />
+
+            <section className="bh-section">
+                <div className="bh-section__header">
+                    <h2>Shop by <em>category</em></h2>
                 </div>
+                <CategoryList categories={CATEGORIES} />
             </section>
 
-            {/* Category tiles */}
-            <section className="section-wrap">
-                <div className="section-header">
-                    <h2>Shop by Category</h2>
-                </div>
-                <div className="category-tiles">
-                    {CATEGORIES.map((cat) => (
-                        <Link key={cat.slug} to={`/search?category=${cat.slug}`} className="category-tile">
-                            <span className="tile-emoji">{cat.emoji}</span>
-                            <span className="tile-label">{cat.label}</span>
-                        </Link>
-                    ))}
-                </div>
-            </section>
-
-            {/* Latest products masonry */}
-            <section className="section-wrap">
-                <div className="section-header">
-                    <h2>New Arrivals</h2>
-                    <Link to="/search" className="view-all">View All</Link>
+            <section className="bh-section">
+                <div className="bh-section__header">
+                    <h2>New <em>arrivals</em></h2>
+                    <Link to="/search" className="bh-view-all">View all &rarr;</Link>
                 </div>
                 <div className="masonry-grid">
                     {isLoading
@@ -113,20 +102,12 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Promo banner */}
-            <section className="promo-banner">
-                <div className="promo-inner">
-                    <h2>End of Season Sale</h2>
-                    <p>Up to 50% off on selected styles. Limited time only.</p>
-                    <Link to="/search?category=sale" className="promo-cta">Explore Sale</Link>
-                </div>
-            </section>
+            <SaleReveal />
 
-            {/* Recently viewed */}
             {recentlyViewed.length > 0 && (
-                <section className="section-wrap">
-                    <div className="section-header">
-                        <h2>Recently Viewed</h2>
+                <section className="bh-section">
+                    <div className="bh-section__header">
+                        <h2>Recently <em>viewed</em></h2>
                     </div>
                     <div className="masonry-grid">
                         {recentlyViewed.map((product) => (
