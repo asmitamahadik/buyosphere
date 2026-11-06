@@ -39,7 +39,7 @@ const ProductCard = memo(({
             transition={{ duration: 0.45, ease: "easeOut" }}
         >
             <Link to={`/product/${productId}`} className="card-image-wrap">
-                <img src={`${server}/${photo}`} alt={name} />
+                <img src={`${server}/${photo}`} alt={name} loading="lazy" />
                 {stock < 1 && <span className="out-of-stock-badge">Out of Stock</span>}
                 {category && <span className="category-badge">{category}</span>}
             </Link>

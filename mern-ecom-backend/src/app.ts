@@ -34,8 +34,6 @@ const clientOrigin = process.env.CLIENT_ORIGIN ?? "http://localhost:5173";
 if (!mongo_uri) throw new Error("MONGO_URI is required");
 if (!stripe_key) throw new Error("STRIPE_KEY is required");
 
-connectDB(mongo_uri);
-
 export const stripe = new Stripe(stripe_key);
 export const myCache = new NodeCache();
 
@@ -65,6 +63,17 @@ app.use(morgan("dev"));
 
 app.get("/", (_req, res) => {
     res.send("API working on '/api/v1'");
+});
+
+// Wait for a ready DB connection before any /api route runs, instead of
+// letting Mongoose's query buffering silently time out on cold starts.
+app.use("/api", async (_req, res, next) => {
+    try {
+        await connectDB(mongo_uri);
+        next();
+    } catch {
+        res.status(503).json({ success: false, message: "Database unavailable, please retry." });
+    }
 });
 
 // Apply rate limiter to user-facing write routes

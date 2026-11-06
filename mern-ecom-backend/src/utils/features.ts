@@ -4,12 +4,30 @@ import { myCache } from "../app.js";
 import { Product } from "../models/product.js";
 import { Order } from "../models/order.js";
 
+let connectionPromise: Promise<typeof mongoose> | null = null;
+
+// Serverless-friendly connect: cache the in-flight/established connection
+// across warm invocations so most requests never attempt a new connection,
+// and clear the cache on failure so the next request gets a fresh retry
+// instead of being stuck behind a permanently rejected promise.
 export const connectDB = (uri: string) => {
-    mongoose.connect(uri).then((c) => {
-        console.log(`DB connected to ${c.connection.host}`)
-    }).catch((e) => {
-        console.log(e)
-    });
+    if (mongoose.connection.readyState === 1) return Promise.resolve(mongoose);
+
+    if (!connectionPromise) {
+        connectionPromise = mongoose
+            .connect(uri, { serverSelectionTimeoutMS: 8000 })
+            .then((c) => {
+                console.log(`DB connected to ${c.connection.host}`);
+                return c;
+            })
+            .catch((e) => {
+                connectionPromise = null;
+                console.error("MongoDB connection error:", e);
+                throw e;
+            });
+    }
+
+    return connectionPromise;
 }
 
 

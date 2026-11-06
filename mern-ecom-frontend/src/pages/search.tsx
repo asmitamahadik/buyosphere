@@ -50,6 +50,8 @@ const Search = () => {
         error: productError,
     } = useSearchProductsQuery({ search: debouncedSearch, sort, price: maxPrice, category, page });
 
+    const skeletons = Array.from({ length: 8 });
+
     const addToCartHandler = (cartItem: CartItem) => {
         if (cartItem.stock < 1) return toast.error("Out of Stock");
         dispatch(addToCart(cartItem));
@@ -132,7 +134,7 @@ const Search = () => {
                 />
                 <div className="search-product-list">
                     {productLoading ? (
-                        <p>Loading...</p>
+                        skeletons.map((_, i) => <div key={i} className="card-skeleton" />)
                     ) : searchedData?.products.length === 0 ? (
                         <div className="empty-state">
                             <p>No products found. Try different filters.</p>
